@@ -1,0 +1,11 @@
+<div>
+  <%= image_tag line_item.product.image.thumb.url , alt: line_item.product.name %>
+  <div>
+    <h2><%= line_item.product.name %></h2>
+    <p><%= line_item.product.description %></p>
+    <div>
+      <p>Quantity: <%= line_item.quantity %></p>
+      <p>Item Total: <%= humanized_money_with_symbol line_item.total_price %></p>
+    </div>
+  </div>
+</div>
