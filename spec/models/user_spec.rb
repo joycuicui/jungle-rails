@@ -89,4 +89,48 @@ RSpec.describe User, type: :model do
     end
 
   end
+
+  describe ".authenticate_with_credentials" do
+    let(:user_attributes) do
+      {
+        first_name: "Dave",
+        last_name: "David", 
+        email: "dave@email.com",
+        password: "password",
+        password_confirmation: "password"
+      }
+    end
+
+    it "returns user if authenticate with correct credentials" do
+      user = User.create(user_attributes)
+      authenticated_user = User.authenticate_with_credentials("dave@email.com", "password")
+      expect(authenticated_user).to eq(user)
+    end
+
+    it "return nil if email is not found" do
+      user = User.create(user_attributes)
+      authenticated_user = User.authenticate_with_credentials("some@email.com", "password")
+      expect(authenticated_user).to be_nil
+    end
+
+    it "returns nil if password is incorrect" do
+      user = User.create(user_attributes)
+      authenticated_user = User.authenticate_with_credentials("dave@email.com", "7password")
+      expect(authenticated_user).to be_nil
+    end
+
+    it "ignores spaces before and/or after email" do
+      user = User.create(user_attributes)
+      authenticated_user = User.authenticate_with_credentials("  dave@email.com  ", "password")
+      expect(authenticated_user).to eq(user)
+    end
+
+    it "is not case sensitive for email" do
+      user = User.create(user_attributes)
+      authenticated_user = User.authenticate_with_credentials("DAVE@email.com", "password")
+      expect(authenticated_user).to eq(user)
+    end
+
+  end
+
 end
