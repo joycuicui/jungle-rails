@@ -1,5 +1,5 @@
 describe("product details", () => {
-  beforeEach("can visit the homepage", () => {
+  beforeEach(() => {
     cy.visit("/");
   });
 
